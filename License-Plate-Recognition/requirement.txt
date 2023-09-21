@@ -11,3 +11,5 @@ pandas
 seaborn
 scipy
 ipython
+flask
+uwsgi
