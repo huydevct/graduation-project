@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b0a77f1ec38e951f5349aa532ef3f3ac",
+    "content-hash": "7243177b33fedd0dacbcda947803067b",
     "packages": [
         {
             "name": "brick/math",
@@ -2162,6 +2162,47 @@
                 "source": "https://github.com/nette/utils/tree/v4.0.1"
             },
             "time": "2023-07-30T15:42:21+00:00"
+        },
+        {
+            "name": "ngocnm/laravel_helpers",
+            "version": "v2.0.7",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/minhngoc2512/laravel-helpers.git",
+                "reference": "3d15ace9c1cfe2d78a87db28f6b95960a7946d3d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/minhngoc2512/laravel-helpers/zipball/3d15ace9c1cfe2d78a87db28f6b95960a7946d3d",
+                "reference": "3d15ace9c1cfe2d78a87db28f6b95960a7946d3d",
+                "shasum": ""
+            },
+            "require": {
+                "laravel/framework": "^8.75|^9.0.0|^10.0.0",
+                "php": "^7.3|^8.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Ngocnm\\LaravelHelpers\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL-2.1-only"
+            ],
+            "authors": [
+                {
+                    "name": "Minh Ngoc",
+                    "email": "minhngoc2512@yahoo.com"
+                }
+            ],
+            "description": "LaravelHelper",
+            "support": {
+                "issues": "https://github.com/minhngoc2512/laravel-helpers/issues",
+                "source": "https://github.com/minhngoc2512/laravel-helpers/tree/v2.0.7"
+            },
+            "time": "2023-09-21T03:56:23+00:00"
         },
         {
             "name": "nikic/php-parser",

@@ -2,7 +2,7 @@
     "apps": [
         {
             "exec_mode": "fork_mode",
-            "script": "/var/www/html/graduation/License-Plate-Recognition/venv/bin/python index.py",
+            "script": "venv/bin/python index.py",
             "name": "detect license plate",
             "node_args": [
                 "--harmony"
