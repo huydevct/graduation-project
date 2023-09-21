@@ -19,3 +19,7 @@ yarn-error.log
 /.vscode
 package-lock.json
 License-Plate-Recognition/venv
+yolov5/utils/__pycache__
+yolov5/models/__pycache__
+yolov5/__pycache__
+function/__pycache__

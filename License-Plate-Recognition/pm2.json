@@ -2,7 +2,7 @@
     "apps": [
         {
             "exec_mode": "fork_mode",
-            "script": "uwsgi -H ./venv --socket 127.0.0.1:5002 --protocol=http -w wsgi:app",
+            "script": "/var/www/html/graduation/License-Plate-Recognition/venv/bin/python index.py",
             "name": "detect license plate",
             "node_args": [
                 "--harmony"
