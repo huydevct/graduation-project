@@ -37,4 +37,8 @@ class ApiController extends Controller
             'status' => $queue->status
         ]);
     }
+
+    public function showImage(){
+        return view('pages.image');
+    }
 }

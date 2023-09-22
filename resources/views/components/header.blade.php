@@ -4,32 +4,35 @@
             <svg class="icon icon-lg">
                 <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-menu"></use>
             </svg>
-        </button><a class="header-brand d-md-none" href="#">
-            <svg width="118" height="46" alt="CoreUI Logo">
-                <use xlink:href="assets/brand/coreui.svg#full"></use>
-            </svg></a>
+        </button>
+{{--        <a class="header-brand d-md-none" href="#">--}}
+{{--            <svg width="118" height="46" alt="CoreUI Logo">--}}
+{{--                <use xlink:href="assets/brand/coreui.svg#full"></use>--}}
+{{--            </svg>--}}
+{{--        </a>--}}
         <ul class="header-nav d-none d-md-flex">
-            <li class="nav-item"><a class="nav-link" href="{!! route('admin') !!}">Dashboard</a></li>
-            <li class="nav-item"><a class="nav-link" href="{!! route('admin.devices.get') !!}">Devices</a></li>
-            <li class="nav-item"><a class="nav-link" href="{!! route('admin.queues.get') !!}">Queues</a></li>
-            <li class="nav-item"><a class="nav-link" href="{!! route('admin.backgrounds.get') !!}">Backgrounds</a></li>
-            <li class="nav-item"><a class="nav-link" href="{!! route('admin.categories.get') !!}">Categories</a></li>
-            <li class="nav-item"><a class="nav-link" href="#">Settings</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{ route("home") }}">Home</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{ route("web.image.show") }}">Image</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">Video</a></li>
+{{--            <li class="nav-item"><a class="nav-link" href="{!! route('admin.queues.get') !!}">Queues</a></li>--}}
+{{--            <li class="nav-item"><a class="nav-link" href="{!! route('admin.backgrounds.get') !!}">Backgrounds</a></li>--}}
+{{--            <li class="nav-item"><a class="nav-link" href="{!! route('admin.categories.get') !!}">Categories</a></li>--}}
+{{--            <li class="nav-item"><a class="nav-link" href="#">Settings</a></li>--}}
         </ul>
-        <ul class="header-nav ms-auto">
-            <li class="nav-item"><a class="nav-link" href="#">
-                    <svg class="icon icon-lg">
-                        <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-bell"></use>
-                    </svg></a></li>
-            <li class="nav-item"><a class="nav-link" href="#">
-                    <svg class="icon icon-lg">
-                        <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-list-rich"></use>
-                    </svg></a></li>
-            <li class="nav-item"><a class="nav-link" href="#">
-                    <svg class="icon icon-lg">
-                        <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-envelope-open"></use>
-                    </svg></a></li>
-        </ul>
+{{--        <ul class="header-nav ms-auto">--}}
+{{--            <li class="nav-item"><a class="nav-link" href="#">--}}
+{{--                    <svg class="icon icon-lg">--}}
+{{--                        <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-bell"></use>--}}
+{{--                    </svg></a></li>--}}
+{{--            <li class="nav-item"><a class="nav-link" href="#">--}}
+{{--                    <svg class="icon icon-lg">--}}
+{{--                        <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-list-rich"></use>--}}
+{{--                    </svg></a></li>--}}
+{{--            <li class="nav-item"><a class="nav-link" href="#">--}}
+{{--                    <svg class="icon icon-lg">--}}
+{{--                        <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-envelope-open"></use>--}}
+{{--                    </svg></a></li>--}}
+{{--        </ul>--}}
         <ul class="header-nav ms-3">
             <li class="nav-item dropdown"><a class="nav-link py-0" data-coreui-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
                     <div class="avatar avatar-md"><img class="avatar-img" src="assets/img/avatars/8.jpg" alt="user@email.com"></div>
@@ -69,7 +72,7 @@
                     <a class="dropdown-item" href="#">
                         <svg class="icon me-2">
                             <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-lock-locked"></use>
-                        </svg> Lock Account</a><a class="dropdown-item" href="{{ route('logout')  }}">
+                        </svg> Lock Account</a><a class="dropdown-item" href="#">
                         <svg class="icon me-2">
                             <use xlink:href="vendors/@coreui/icons/svg/free.svg#cil-account-logout"></use>
                         </svg> Logout</a>
