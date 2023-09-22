@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify, make_response, send_file
 from PIL import Image
+import json
 import cv2
 import torch
 import math
@@ -14,6 +15,12 @@ import function.helper as helper
 # ap.add_argument('-i', '--image', required=True, help='path to input image')
 # args = ap.parse_args()
 
+def serialize_sets(obj):
+    if isinstance(obj, set):
+        return list(obj)
+
+    return obj
+
 app = Flask(__name__)
 
 @app.route("/detect-lp", methods=["POST"])
@@ -24,7 +31,7 @@ def detectLp():
     image = request.files["image"]
     file_path = os.path.join('temp', str(int(time.time() * 1_000_000)) + "." + "jpg")
     file_path_ouput = os.path.join('temp', str(int(time.time() * 1_000_000)) + "-out." + "jpg")
-    crop_path = "temp/crop.jpg"
+    crop_path = os.path.join("temp", "crop.jpg")
 
     image.save(file_path)
 
@@ -71,7 +78,13 @@ def detectLp():
         cv2.waitKey()
         cv2.destroyAllWindows()
 
-        return send_file(file_path_ouput, download_name="output.jpg")
+        # return send_file(file_path_ouput, download_name="output.jpg")
+        lps = serialize_sets(list_read_plates)
+        response = {
+            "liscense_plates": lps,
+            "file_path_out": file_path_ouput
+        }
+        return jsonify(response)
     except():
         print("Occur a Error")
         torch.cuda.empty_cache()
@@ -79,9 +92,14 @@ def detectLp():
             os.remove(file_path)
         else:
             print("The file does not exist")
-        
+
         if os.path.exists(file_path_ouput):
             os.remove(file_path_ouput)
+        else:
+            print("The file does not exist")
+
+        if os.path.exists(crop_path):
+            os.remove(crop_path)
         else:
             print("The file does not exist")
         return {"Server error": "An exception occurred"}, 400
@@ -93,9 +111,9 @@ def detectLp():
             os.remove(file_path)
         else:
             print("The file does not exist")
-        
-        if os.path.exists(file_path_ouput):
-            os.remove(file_path_ouput)
+
+        if os.path.exists(crop_path):
+            os.remove(crop_path)
         else:
             print("The file does not exist")
 

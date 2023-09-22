@@ -18,7 +18,7 @@ class ApiController extends Controller
             return $this->response(['image' => "File image not found!"], 422);
         }
         $type_file = $request->image->getClientOriginalExtension();
-        $path = 'temp/' . date("H") . "/remove-background/" . time() . "_" . Str::random(10) . ".$type_file";
+        $path = 'temp/' . date("H") . "/detect-lp/" . time() . "_" . Str::random(10) . ".$type_file";
         Storage::disk('local')->put('public/' . $path, $request->file('image')->get());
         $data_insert = [
             'type' => config('detect.type.detect_lp'),
@@ -26,7 +26,6 @@ class ApiController extends Controller
             'data' => [
                 'type' => 'image',
                 'path' => $path,
-                'model' => $request->model
             ]
         ];
 
