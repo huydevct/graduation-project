@@ -17,4 +17,10 @@ class QueueController extends Controller
         $queue_ai = QueueGet::getIdByApi($id);
         return $this->response($queue_ai);
     }
+
+    function showPage($id)
+    {
+        $queue = QueueGet::getIdByApi($id);
+        return view('pages.view', compact(['queue']));
+    }
 }

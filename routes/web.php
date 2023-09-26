@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\QueueController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ApiController;
 /*
@@ -18,3 +19,7 @@ Route::get('/', function () {
 })->name('home');
 
 Route::get('/image', [ApiController::class,'showImage'])->name('web.image.show');
+Route::get('/queues/page/{id}', [QueueController::class, 'showPage'])->name('web.queues.show-page');
+Route::post('/image/detect-lp-page',[ApiController::class,'detectLpPage'])->name('web.images.detect-page');
+
+
