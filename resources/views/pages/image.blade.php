@@ -13,7 +13,7 @@
     <div class="container-lg">
         <div class="card mb-4">
             <div class="card-body">
-                <form action="{!! route('api.v1.images.detect') !!}" method="POST" class="card" enctype="multipart/form-data">
+                <form action="{!! route('api.v1.images.detect-page') !!}" method="POST" class="card" enctype="multipart/form-data">
                     <input accept="image/*" name="image" class="form-control" type="file">
 
                     <div class="card-footer">
