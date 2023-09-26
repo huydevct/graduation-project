@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Helpers\AppHelper;
 use App\Http\Requests\ImageRequest;
 use App\Jobs\DetectLP;
 use App\Services\Queues\QueueSet;
@@ -13,7 +12,8 @@ use Illuminate\Support\Str;
 
 class ApiController extends Controller
 {
-    public function detectLp(ImageRequest $request){
+    public function detectLp(ImageRequest $request)
+    {
         if ($request->file('image') == null) {
             return $this->response(['image' => "File image not found!"], 422);
         }
@@ -38,7 +38,8 @@ class ApiController extends Controller
         ]);
     }
 
-    public function detectLpPage(ImageRequest $request){
+    public function detectLpPage(ImageRequest $request)
+    {
         if ($request->file('image') == null) {
             return $this->response(['image' => "File image not found!"], 422);
         }
@@ -57,13 +58,15 @@ class ApiController extends Controller
         $queue = QueueSet::create($data_insert);
 
         dispatch(new DetectLP($queue->id))->onQueue('detect');
-        return $this->response([
-            'id' => $queue->id,
-            'status' => $queue->status
-        ]);
+
+        $queue_id = $queue->id;
+        sleep(5);
+
+        return redirect()->route('web.queues.show-page', ['id' => $queue_id]);
     }
 
-    public function showImage(){
+    public function showImage()
+    {
         return view('pages.image');
     }
 }

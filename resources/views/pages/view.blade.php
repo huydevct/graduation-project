@@ -13,16 +13,16 @@
     <div class="container-lg">
         <div class="card mb-4">
             <div class="card-body">
-                <form action="{!! route('web.images.detect-page') !!}" method="POST" class="card" enctype="multipart/form-data">
-                    @csrf
-                    <input accept="image/*" name="image" class="form-control" type="file">
-
-                    <div class="card-footer">
-                        <button type="submit" class="btn btn-primary">
-                            Detect
-                        </button>
-                    </div>
-                </form>
+                <div class="card-footer">
+                    <a href="{{$queue->data['url']}}" target="_blank"><img src="{{$queue->data['url']}}" width="500" height="500"></a>
+                    <a href="{{$queue->value['url']}}" target="_blank"><img src="{{$queue->value['url']}}" width="500" height="500"></a>
+                </div>
+                <div>
+                    Plates
+                    @foreach($queue->value['plates'] as $plate)
+                        <b class="m-2">{{ $plate }}</b>
+                    @endforeach
+                </div>
             </div>
         </div>
     </div>
