@@ -60,7 +60,7 @@ class ApiController extends Controller
         dispatch(new DetectLP($queue->id))->onQueue('detect');
 
         $queue_id = $queue->id;
-        sleep(5);
+        sleep(10);
 
         return redirect()->route('web.queues.show-page', ['id' => $queue_id]);
     }
