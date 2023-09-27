@@ -13,16 +13,20 @@
     <div class="container-lg">
         <div class="card mb-4">
             <div class="card-body">
-                <div class="card-footer">
-                    <a href="{{$queue->data['url']}}" target="_blank"><img src="{{$queue->data['url']}}" width="500" height="500"></a>
-                    <a href="{{$queue->value['url']}}" target="_blank"><img src="{{$queue->value['url']}}" width="500" height="500"></a>
-                </div>
-                <div>
-                    Plates
-                    @foreach($queue->value['plates'] as $plate)
-                        <b class="m-2">{{ $plate }}</b>
-                    @endforeach
-                </div>
+                @if(!empty($queue))
+                    <div class="card-footer">
+                        <a href="{{$queue->data['url']}}" target="_blank"><img src="{{$queue->data['url']}}" width="500"
+                                                                               height="500"></a>
+                        <a href="{{$queue->value['url']}}" target="_blank"><img src="{{$queue->value['url']}}"
+                                                                                width="500" height="500"></a>
+                    </div>
+                    <div>
+                        Plates
+                        @foreach($queue->value['plates'] as $plate)
+                            <b class="m-2">{{ $plate }}</b>
+                        @endforeach
+                    </div>
+                @endif
             </div>
         </div>
     </div>
