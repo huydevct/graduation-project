@@ -26,7 +26,7 @@ class Handler extends ExceptionHandler
     public function register(): void
     {
         $this->reportable(function (Throwable $e) {
-            if(env('APP_DEBUG')==true){
+            if(env('APP_DEBUG')==false){
                 $ip = config('app.ip_server');
                 $message = "- Source: ".config('app.name').": ".$ip;
                 $message .= "\n- Path: ".url()->full();
