@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Services\Queues\QueueGet;
+use App\Services\Queues\QueueSet;
 use GuzzleHttp\Client;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
@@ -60,6 +61,9 @@ class DetectLP implements ShouldQueue
                     'contents' => $queue_data['model'],
                 ];
             }
+            QueueSet::update($this->queue_id,[
+                'status' => 1
+            ]);
             $client = new Client();
             $response = $client->post(config('detect.detect_lp_url') . '/detect-lp', [
                 'multipart' => $params
@@ -70,10 +74,10 @@ class DetectLP implements ShouldQueue
             $path = 'temp/' . date("H") . "/detect-lp/" . time() . "_" . Str::random(10) . "-out.jpg";
             $responses = $response->getBody()->getContents();
             $response = json_decode($responses);
-            $file_out = file_get_contents(base_path("License-Plate-Recognition/" . $response->file_path_out));
+            $file_out = file_get_contents(base_path("temp/detect-lp/" . $response->file_path_out));
             Storage::disk('local')->put('public/' . $path, $file_out);
-            if (File::exists(base_path("License-Plate-Recognition/" . $response->file_path_out))) {
-                unlink(base_path("License-Plate-Recognition/" . $response->file_path_out));
+            if (File::exists(base_path("temp/detect-lp/" . $response->file_path_out))) {
+                unlink(base_path("temp/detect-lp/" . $response->file_path_out));
             }
             $queue->value = [
                 'type' => 'plate',
