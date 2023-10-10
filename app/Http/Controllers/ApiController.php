@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ImageRequest;
 use App\Jobs\DetectLP;
+use App\Jobs\DetectLpVideo;
 use App\Services\Queues\QueueSet;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
@@ -32,6 +33,32 @@ class ApiController extends Controller
         $queue = QueueSet::create($data_insert);
 
         dispatch(new DetectLP($queue->id))->onQueue('detect');
+        return $this->response([
+            'id' => $queue->id,
+            'status' => $queue->status
+        ]);
+    }
+
+    public function detectLpVideo(ImageRequest $request)
+    {
+        if ($request->file('video') == null) {
+            return $this->response(['image' => "File video not found!"], 422);
+        }
+        $type_file = $request->image->getClientOriginalExtension();
+        $path = 'temp/' . date("H") . "/detect-lp-video/" . time() . "_" . Str::random(10) . ".$type_file";
+        Storage::disk('local')->put('public/' . $path, $request->file('video')->get());
+        $data_insert = [
+            'type' => config('detect.type.detect_lp_video'),
+            'status' => 0,
+            'data' => [
+                'type' => 'video',
+                'path' => $path,
+            ]
+        ];
+
+        $queue = QueueSet::create($data_insert);
+
+        dispatch(new DetectLpVideo($queue->id))->onQueue('detect');
         return $this->response([
             'id' => $queue->id,
             'status' => $queue->status
