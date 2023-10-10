@@ -42,7 +42,7 @@ class ApiController extends Controller
     public function detectLpVideo(ImageRequest $request)
     {
         if ($request->file('video') == null) {
-            return $this->response(['image' => "File video not found!"], 422);
+            return $this->response(['video' => "File video not found!"], 422);
         }
         $type_file = $request->image->getClientOriginalExtension();
         $path = 'temp/' . date("H") . "/detect-lp-video/" . time() . "_" . Str::random(10) . ".$type_file";
