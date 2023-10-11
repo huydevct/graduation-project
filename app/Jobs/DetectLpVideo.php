@@ -59,24 +59,24 @@ class DetectLpVideo implements ShouldQueue
                 'status' => 1
             ]);
             $client = new Client();
-            $response = $client->post(config('detect.detect_lp_video_url') . '/detect-lp', [
+            $response = $client->post(config('detect.detect_lp_video_url') . '/detect-lp-video', [
                 'multipart' => $params
             ]);
             $process_time = round(microtime(true) - $time_start, 3);
             if ($response->getStatusCode() != 200)
                 throw new \Exception("Detect LP video error!");
-            $path = 'temp/' . date("H") . "/detect-lp-video/" . time() . "_" . Str::random(10) . "-out.jpg";
-            $responses = $response->getBody()->getContents();
-            $response = json_decode($responses);
-            $file_out = file_get_contents(base_path("temp/detect-lp-video/" . $response->file_path_out));
-            Storage::disk('local')->put('public/' . $path, $file_out);
-            if (File::exists(base_path("temp/detect-lp-video/" . $response->file_path_out))) {
-                unlink(base_path("temp/detect-lp/" . $response->file_path_out));
-            }
+            $path = 'temp/' . date("H") . "/detect-lp-video/" . time() . "_" . Str::random(10) . "-out.mp4";
+            $res = $response->getBody()->getContents();
+//            $response = json_decode($responses);
+//            $file_out = file_get_contents(base_path("temp/detect-lp-video/" . $response->file_path_out));
+            Storage::disk('local')->put('public/' . $path, $res);
+//            if (File::exists(base_path("temp/detect-lp-video/" . $response->file_path_out))) {
+//                unlink(base_path("temp/detect-lp/" . $response->file_path_out));
+//            }
             $queue->value = [
                 'type' => 'plate',
                 'path' => $path,
-                'plates' => $response->liscense_plates,
+//                'plates' => $response->liscense_plates,
             ];
             $queue->process_time = $process_time;
             $queue->status = 2;
