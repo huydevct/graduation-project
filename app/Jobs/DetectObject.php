@@ -65,17 +65,10 @@ class DetectObject implements ShouldQueue
             if ($response->getStatusCode() != 200)
                 throw new \Exception("Detect object error!");
             $path = 'temp/' . date("H") . "/detect-object/" . time() . "_" . Str::random(10) . "-out.jpg";
-            $res = $response->getBody()->getContents();
-//            $response = json_decode($responses);
-//            $file_out = file_get_contents(base_path("temp/detect-lp-video/" . $response->file_path_out));
-            Storage::disk('local')->put('public/' . $path, $res);
-//            if (File::exists(base_path("temp/detect-lp-video/" . $response->file_path_out))) {
-//                unlink(base_path("temp/detect-lp/" . $response->file_path_out));
-//            }
+            Storage::disk('local')->put('public/' . $path, $response->getBody()->getContents());
             $queue->value = [
-                'type' => 'plate',
+                'type' => 'image',
                 'path' => $path,
-//                'plates' => $response->liscense_plates,
             ];
             $queue->process_time = $process_time;
             $queue->status = 2;
