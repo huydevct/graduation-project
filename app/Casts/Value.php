@@ -17,7 +17,11 @@ class Value implements CastsAttributes
     {
         if (!empty($value)) {
             $value = json_decode($value, 1);
-            $value['url'] = Storage::disk('minio')->url($value['path']);
+            if ($value['type'] == "video plate"){
+                $value['url'] = Storage::disk('minio')->url($value['path']);
+            }else{
+                $value['url'] = Storage::disk('public')->url($value['path']);
+            }
         }
         return $value;
     }

@@ -75,7 +75,7 @@ class DetectLpVideo implements ShouldQueue
 //                unlink(base_path("temp/detect-lp/" . $response->file_path_out));
 //            }
             $queue->value = [
-                'type' => 'plate',
+                'type' => 'video plate',
                 'path' => $path,
 //                'plates' => $response->liscense_plates,
             ];
