@@ -76,7 +76,7 @@ class DetectLpVideo implements ShouldQueue
 //            }
             $queue->value = [
                 'type' => 'plate',
-                'path' => Storage::disk('minio')->url($path),
+                'path' => $path,
 //                'plates' => $response->liscense_plates,
             ];
             $queue->process_time = $process_time;

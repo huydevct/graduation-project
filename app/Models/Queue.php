@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Casts\Data;
 use App\Casts\Value;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -16,7 +17,7 @@ class Queue extends Model
 
     protected $casts = [
         'value' => Value::class,
-        'data' => Value::class,
+        'data' => Data::class,
     ];
 
     static $schema = [

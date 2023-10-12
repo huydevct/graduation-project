@@ -51,6 +51,7 @@ return [
             'region' => env('MINIO_REGION', 'us-east-1'),
             'bucket' => env('MINIO_DEFAULT_BUCKET', 'images'),
             'endpoint' => env('MINIO_ENDPOINT', 'http://minio:9000'),
+            'url' => env('MINIO_ENDPOINT', 'http://minio:9000'),
         ],
 
         's3' => [
