@@ -55,7 +55,7 @@ class DetectLpVideo implements ShouldQueue
                     'filename' => 'video.mp4'
                 ]
             ];
-            QueueSet::update($this->queue_id,[
+            QueueSet::update($this->queue_id, [
                 'status' => 1
             ]);
             $client = new Client();
@@ -69,13 +69,14 @@ class DetectLpVideo implements ShouldQueue
             $res = $response->getBody()->getContents();
 //            $response = json_decode($responses);
 //            $file_out = file_get_contents(base_path("temp/detect-lp-video/" . $response->file_path_out));
-            Storage::disk('local')->put('public/' . $path, $res);
+            Storage::disk('minio')->put($path, $res);
+//            Storage::disk('local')->put('public/' . $path, $res);
 //            if (File::exists(base_path("temp/detect-lp-video/" . $response->file_path_out))) {
 //                unlink(base_path("temp/detect-lp/" . $response->file_path_out));
 //            }
             $queue->value = [
                 'type' => 'plate',
-                'path' => $path,
+                'path' => Storage::disk('minio')->url($path),
 //                'plates' => $response->liscense_plates,
             ];
             $queue->process_time = $process_time;
