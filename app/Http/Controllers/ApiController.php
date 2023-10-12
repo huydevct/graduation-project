@@ -61,7 +61,7 @@ class ApiController extends Controller
 
         $queue = QueueSet::create($data_insert);
 
-        dispatch(new DetectLpVideo($queue->id))->onQueue('detect');
+        dispatch(new DetectLpVideo($queue->id))->onQueue('detect_video');
         return $this->response([
             'id' => $queue->id,
             'status' => $queue->status
