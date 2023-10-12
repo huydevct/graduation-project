@@ -34,7 +34,7 @@ class Queue extends Model
             "sort" => true
         ],
         "data" => [
-            "type" => "int",
+            "type" => "string",
             "insert" => false,
             "query_condition" => true,
             "sort" => true
