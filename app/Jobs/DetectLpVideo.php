@@ -60,12 +60,13 @@ class DetectLpVideo implements ShouldQueue
             ]);
             $client = new Client();
             $response = $client->post(config('detect.detect_lp_video_url') . '/detect-lp-video', [
-                'multipart' => $params
+                'multipart' => $params,
+                'timeout' => 240
             ]);
             $process_time = round(microtime(true) - $time_start, 3);
             if ($response->getStatusCode() != 200)
                 throw new \Exception("Detect LP video error!");
-            $path = 'temp/' . date("H") . "/detect-lp-video/" . time() . "_" . Str::random(10) . "-out.mp4";
+            $path = 'temp/' . date("H") . "/detect-lp-video/" . time() . "_" . Str::random(10) . "-out.gif";
             $res = $response->getBody()->getContents();
 //            $response = json_decode($responses);
 //            $file_out = file_get_contents(base_path("temp/detect-lp-video/" . $response->file_path_out));
