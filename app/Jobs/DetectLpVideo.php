@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Services\LicensePlate\LicensePlateGet;
 use App\Services\Queues\QueueGet;
 use App\Services\Queues\QueueSet;
 use GuzzleHttp\Client;
@@ -53,6 +54,10 @@ class DetectLpVideo implements ShouldQueue
                     'name' => 'video',
                     'contents' => Storage::disk('local')->get("public/{$queue_data['path']}"),
                     'filename' => 'video.mp4'
+                ],
+                [
+                    'name' => 'queue_id',
+                    'contents' => $queue_id,
                 ]
             ];
             QueueSet::update($this->queue_id, [
@@ -70,15 +75,17 @@ class DetectLpVideo implements ShouldQueue
             $res = $response->getBody()->getContents();
 //            $response = json_decode($responses);
 //            $file_out = file_get_contents(base_path("temp/detect-lp-video/" . $response->file_path_out));
-            Storage::disk('minio')->put($path, $res);
-//            Storage::disk('local')->put('public/' . $path, $res);
+//            Storage::disk('minio')->put($path, $res);
+            Storage::disk('local')->put('public/' . $path, $res);
 //            if (File::exists(base_path("temp/detect-lp-video/" . $response->file_path_out))) {
 //                unlink(base_path("temp/detect-lp/" . $response->file_path_out));
 //            }
+
+            $lps = LicensePlateGet::getByQueueId($queue_id);
             $queue->value = [
                 'type' => 'video plate',
                 'path' => $path,
-//                'plates' => $response->liscense_plates,
+                'plates' => $lps->lps,
             ];
             $queue->process_time = $process_time;
             $queue->status = 2;

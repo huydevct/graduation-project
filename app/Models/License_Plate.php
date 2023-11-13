@@ -12,6 +12,15 @@ class License_Plate extends Model
 
     protected $table = 'license_plates';
 
+    protected $fillable = [
+        'queue_id',
+        'title',
+        'lps',
+        'created_at',
+        'updated_at'
+    ];
+
+
     static $schema = [
         "id" => [
             "type" => "int",
@@ -21,7 +30,19 @@ class License_Plate extends Model
         ],
         "title" => [
             "type" => "string",
-            "insert" => false,
+            "insert" => true,
+            "query_condition" => true,
+            "sort" => true
+        ],
+        "lps" => [
+            "type" => "string",
+            "insert" => true,
+            "query_condition" => true,
+            "sort" => true
+        ],
+        "queue_id" => [
+            "type" => "int",
+            "insert" => true,
             "query_condition" => true,
             "sort" => true
         ],
