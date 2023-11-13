@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('license_plates', function (Blueprint $table) {
-            $table->string('lps')->index()->default('')->after('title');
+            $table->text('lps')->after('title');
             $table->bigInteger('queue_id')->index()->default(0)->after('title');
         });
     }
