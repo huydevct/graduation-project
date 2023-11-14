@@ -1,0 +1,9 @@
+┌────┬───────────────────────────────┬─────────────┬─────────┬─────────┬──────────┬────────┬──────┬───────────┬──────────┬──────────┬──────────┬──────────┐
+│ id │ name                          │ namespace   │ version │ mode    │ pid      │ uptime │ ↺    │ status    │ cpu      │ mem      │ user     │ watching │
+├────┼───────────────────────────────┼─────────────┼─────────┼─────────┼──────────┼────────┼──────┼───────────┼──────────┼──────────┼──────────┼──────────┤
+│ 3  │ cronjob_delete_folder         │ default     │ N/A     │ fork    │ 0        │ 0      │ 0    │ stopped   │ 0%       │ 0b       │ root     │ disabled │
+│ 0  │ detect license plate          │ default     │ N/A     │ fork    │ 47147    │ 37m    │ 2    │ online    │ 0%       │ 649.5mb  │ root     │ disabled │
+│ 2  │ detect license plate video    │ default     │ N/A     │ fork    │ 47172    │ 37m    │ 7    │ online    │ 0%       │ 413.0mb  │ root     │ disabled │
+│ 1  │ detect object                 │ default     │ N/A     │ fork    │ 47136    │ 37m    │ 2    │ online    │ 0%       │ 117.7mb  │ root     │ disabled │
+│ 4  │ minio                         │ default     │ N/A     │ fork    │ 0        │ 0      │ 1    │ stopped   │ 0%       │ 0b       │ root     │ disabled │
+└────┴───────────────────────────────┴─────────────┴─────────┴─────────┴──────────┴────────┴──────┴───────────┴──────────┴──────────┴──────────┴──────────┘

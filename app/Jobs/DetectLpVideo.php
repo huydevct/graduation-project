@@ -57,7 +57,7 @@ class DetectLpVideo implements ShouldQueue
                 ],
                 [
                     'name' => 'queue_id',
-                    'contents' => $queue_id,
+                    'contents' => $this->queue_id,
                 ]
             ];
             QueueSet::update($this->queue_id, [
@@ -71,7 +71,7 @@ class DetectLpVideo implements ShouldQueue
             $process_time = round(microtime(true) - $time_start, 3);
             if ($response->getStatusCode() != 200)
                 throw new \Exception("Detect LP video error!");
-            $path = 'temp/' . date("H") . "/detect-lp-video/" . time() . "_" . Str::random(10) . "-out.gif";
+            $path = 'temp/' . date("H") . "/detect-lp-video/" . time() . "_" . Str::random(10) . "-out.mp4";
             $res = $response->getBody()->getContents();
 //            $response = json_decode($responses);
 //            $file_out = file_get_contents(base_path("temp/detect-lp-video/" . $response->file_path_out));
@@ -81,11 +81,16 @@ class DetectLpVideo implements ShouldQueue
 //                unlink(base_path("temp/detect-lp/" . $response->file_path_out));
 //            }
 
-            $lps = LicensePlateGet::getByQueueId($queue_id);
+            $lps = LicensePlateGet::getByQueueId($this->queue_id);
+            if(empty($lps)){
+                $plates = "".$this->queue_id;
+            }else{
+                $plates = $lps->lps;
+            }
             $queue->value = [
                 'type' => 'video plate',
                 'path' => $path,
-                'plates' => $lps->lps,
+                'plates' => $plates,
             ];
             $queue->process_time = $process_time;
             $queue->status = 2;
