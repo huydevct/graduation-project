@@ -24,7 +24,7 @@ class ApiController extends Controller
             foreach ($request->images as $image) {
                 $type_file = $image->getClientOriginalExtension();
                 $path = 'temp/' . date("H") . "/detect-lp/" . time() . "_" . Str::random(10) . ".$type_file";
-                Storage::disk(config('filesystems.tmp_disk'))->put($path, $image->get());
+                $ok = Storage::disk('local')->put("public/".$path, $image->get());
                 $array_path[] = $path;
             }
         }else{
@@ -44,7 +44,7 @@ class ApiController extends Controller
 
         $queue = QueueSet::create($data_insert);
 
-        dispatch(new DetectLPFolder($queue->id))->onQueue('detect-folder');
+        dispatch(new DetectLPFolder($queue->id))->onQueue('detect');
         return $this->response([
             'id' => $queue->id,
             'status' => $queue->status

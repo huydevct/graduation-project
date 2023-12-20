@@ -44,68 +44,70 @@ class DetectLPFolder implements ShouldQueue
         ]);
 
 //        try {
-            if (empty($queue)) {
-                echo "Error: Not Found queue: {$queue->status}" . PHP_EOL;
-                throw new \Exception('Run job DetectLPFolder fail: not found queue!');
-            }
-            if ($queue->status != 0) {
-                echo "Error: Job status: {$queue->status}" . PHP_EOL;
-                throw new \Exception("Run job DetectLPFolder fail: Job status: {$queue_id}:  {$queue->status}!");
-            }
+        if (empty($queue)) {
+            echo "Error: Not Found queue: {$queue->status}" . PHP_EOL;
+            throw new \Exception('Run job DetectLPFolder fail: not found queue!');
+        }
+        if ($queue->status != 0) {
+            echo "Error: Job status: {$queue->status}" . PHP_EOL;
+            throw new \Exception("Run job DetectLPFolder fail: Job status: {$queue_id}:  {$queue->status}!");
+        }
 
-            $array_path = $queue->data['path'];
-            $time_start = microtime(true);
-            $licenses = [0];
-            $filesToZip = [];
+        $array_path = $queue->data['path'];
+        $time_start = microtime(true);
+        $licenses = [0];
+        $array_path_res = [];
 
-            foreach ($array_path as $path) {
-                $params = [
-                    [
-                        'name' => 'image',
-                        'contents' => Storage::disk('local')->get("public/$path"),
-                        'filename' => 'image.jpg'
-                    ],
-                ];
-
-                $client = new Client();
-                $response = $client->post(config('detect.detect_lp_url') . '/detect-lp', [
-                    'multipart' => $params
-                ]);
-                $process_time = round(microtime(true) - $time_start, 3);
-                if ($response->getStatusCode() != 200)
-                    throw new \Exception("Detect LP image error!");
-                $path = 'temp/' . date("H") . "/detect-lp/" . time() . "_" . Str::random(10) . "-out.jpg";
-                $responses = $response->getBody()->getContents();
-                $response = json_decode($responses);
-                $file_out = file_get_contents(base_path("temp/detect-lp/" . $response->file_path_out));
-                Storage::disk('local')->put('public/' . $path, $file_out);
-                if (File::exists(base_path("temp/detect-lp/" . $response->file_path_out))) {
-                    unlink(base_path("temp/detect-lp/" . $response->file_path_out));
-                }
-
-                $filesToZip[] = Storage::disk('local')->path($path);
-                $licenses[] = $response->liscense_plates;
-            }
-
-            $zip = new ZipArchive;
-            $zipFileName = 'temp/' . date("H") . "/detect-lp/" . time() . "_" . Str::random(10) . "-out.zip";
-            if ($zip->open(public_path($zipFileName), ZipArchive::CREATE) === TRUE) {
-                foreach ($filesToZip as $file) {
-                    $zip->addFile($file, basename($file));
-                }
-
-                $zip->close();
-            } else {
-                throw new \Exception("Failed to create the zip file.");
-            }
-            $queue->value = [
-                'type' => 'plate-folder',
-                'path' => $zipFileName,
-                'plates' => $licenses,
+        foreach ($array_path as $path) {
+            $params = [
+                [
+                    'name' => 'image',
+                    'contents' => Storage::disk('local')->get("public/$path"),
+                    'filename' => 'image.jpg'
+                ],
             ];
-            $queue->process_time = $process_time;
-            $queue->status = 2;
-            $queue->save();
+
+            $client = new Client();
+            $response = $client->post(config('detect.detect_lp_url') . '/detect-lp', [
+                'multipart' => $params
+            ]);
+            $process_time = round(microtime(true) - $time_start, 3);
+            if ($response->getStatusCode() != 200)
+                throw new \Exception("Detect LP image error!");
+            $path = 'temp/' . date("H") . "/detect-lp/" . time() . "_" . Str::random(10) . "-out.jpg";
+            $responses = $response->getBody()->getContents();
+            $response = json_decode($responses);
+            $file_out = file_get_contents(base_path("temp/detect-lp/" . $response->file_path_out));
+            Storage::disk('local')->put('public/' . $path, $file_out);
+            if (File::exists(base_path("temp/detect-lp/" . $response->file_path_out))) {
+                unlink(base_path("temp/detect-lp/" . $response->file_path_out));
+            }
+
+            $array_path_res[] = $path;
+            $licenses[] = [
+                $path => $response->liscense_plates
+            ];
+        }
+
+//            $zip = new ZipArchive;
+//            $zipFileName = 'temp/' . date("H") . "/detect-lp/" . time() . "_" . Str::random(10) . "-out.zip";
+//            if ($zip->open(public_path($zipFileName), ZipArchive::CREATE) === TRUE) {
+//                foreach ($filesToZip as $file) {
+//                    $zip->addFile($file, basename($file));
+//                }
+//
+//                $zip->close();
+//            } else {
+//                throw new \Exception("Failed to create the zip file.");
+//            }
+        $queue->value = [
+            'type' => 'plate-folder',
+            'path' => $array_path_res,
+            'plates' => $licenses,
+        ];
+        $queue->process_time = $process_time;
+        $queue->status = 2;
+        $queue->save();
 //        } catch (\Exception $exception) {
 //            $queue->status = 3;
 //            $queue->error = $exception->getMessage();

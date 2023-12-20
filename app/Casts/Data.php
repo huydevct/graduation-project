@@ -23,7 +23,7 @@ class Data implements CastsAttributes
             if (!empty($value['path']) && is_array($value['path'])){
                 $array_url = [];
                 foreach ($value['path'] as $path){
-                    $array_url[] = Storage::disk(config('filesystems.tmp_disk'))->url($path);
+                    $array_url[] = Storage::disk('public')->url($path);
                 }
                 $value['url'] = $array_url;
             }

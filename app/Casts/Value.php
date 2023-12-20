@@ -22,8 +22,18 @@ class Value implements CastsAttributes
 //            }else{
 //                $value['url'] = Storage::disk('public')->url($value['path']);
 //            }
-            $value['url'] = Storage::disk('public')->url($value['path']);
-
+//            $value['url'] = Storage::disk('public')->url($value['path']);
+//            $value = json_decode($value, 1);
+            if (!empty($value['path']) && !is_array($value['path'])) {
+                $value['url'] = Storage::disk('public')->url($value['path']);
+            }
+            if (!empty($value['path']) && is_array($value['path'])){
+                $array_url = [];
+                foreach ($value['path'] as $path){
+                    $array_url[] = Storage::disk('public')->url($path);
+                }
+                $value['url'] = $array_url;
+            }
         }
         return $value;
     }
