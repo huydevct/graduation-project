@@ -17,7 +17,16 @@ class Data implements CastsAttributes
     {
         if (!empty($value)) {
             $value = json_decode($value, 1);
-            $value['url'] = Storage::disk('public')->url($value['path']);
+            if (!empty($value['path']) && !is_array($value['path'])) {
+                $value['url'] = Storage::disk('public')->url($value['path']);
+            }
+            if (!empty($value['path']) && is_array($value['path'])){
+                $array_url = [];
+                foreach ($value['path'] as $path){
+                    $array_url[] = Storage::disk(config('filesystems.tmp_disk'))->url($path);
+                }
+                $value['url'] = $array_url;
+            }
         }
         return $value;
     }

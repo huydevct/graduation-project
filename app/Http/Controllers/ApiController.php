@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\FolderImageRequest;
 use App\Http\Requests\ImageRequest;
 use App\Http\Requests\VideoRequest;
+use App\Jobs\DetectLPFolder;
 use App\Jobs\DetectLP;
 use App\Jobs\DetectLpVideo;
 use App\Jobs\DetectObject;
@@ -15,6 +17,39 @@ use Illuminate\Support\Str;
 
 class ApiController extends Controller
 {
+    public function detectLpFolder(FolderImageRequest $request)
+    {
+        $array_path = [];
+        if (is_array($request->images)) {
+            foreach ($request->images as $image) {
+                $type_file = $image->getClientOriginalExtension();
+                $path = 'temp/' . date("H") . "/detect-lp/" . time() . "_" . Str::random(10) . ".$type_file";
+                Storage::disk(config('filesystems.tmp_disk'))->put($path, $image->get());
+                $array_path[] = $path;
+            }
+        }else{
+            return $this->response(['message' => [
+                'Images is required!'
+            ]], 422);
+        }
+
+        $data_insert = [
+            'type' => config('detect.type.detect_lp'),
+            'status' => 0,
+            'data' => [
+                'type' => 'images',
+                'path' => $array_path,
+            ]
+        ];
+
+        $queue = QueueSet::create($data_insert);
+
+        dispatch(new DetectLPFolder($queue->id))->onQueue('detect-folder');
+        return $this->response([
+            'id' => $queue->id,
+            'status' => $queue->status
+        ]);
+    }
     public function detectLp(ImageRequest $request)
     {
         if ($request->file('image') == null) {
