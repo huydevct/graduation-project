@@ -83,7 +83,10 @@ class ApiController extends Controller
         }
         $type_file = $request->video->getClientOriginalExtension();
         $path = 'temp/' . date("H") . "/detect-lp-video/" . time() . "_" . Str::random(10) . ".$type_file";
-        Storage::disk('local')->put('public/' . $path, $request->file('video')->get());
+        $ok = Storage::disk('local')->put('public/' . $path, $request->file('video')->get());
+        if (!$ok){
+            return $this->response(['video' => "File video not found!"], 422);
+        }
         $data_insert = [
             'type' => config('detect.type.detect_lp_video'),
             'status' => 0,
