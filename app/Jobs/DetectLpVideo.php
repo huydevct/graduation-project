@@ -83,7 +83,7 @@ class DetectLpVideo implements ShouldQueue
 
             $lps = LicensePlateGet::getByQueueId($this->queue_id);
             if(empty($lps)){
-                $plates = "".$this->queue_id;
+                $plates = [$this->queue_id];
             }else{
                 $plates = $lps->lps;
             }

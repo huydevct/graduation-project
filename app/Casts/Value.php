@@ -33,6 +33,9 @@ class Value implements CastsAttributes
                     $array_url[] = Storage::disk('public')->url($path);
                 }
                 $value['url'] = $array_url;
+                if(!empty($value['json_file'])){
+                    $value['json_file'] = Storage::disk('public')->url($value['json_file']);
+                }
             }
         }
         return $value;
